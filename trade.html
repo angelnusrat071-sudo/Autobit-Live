@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Trade — Autobit Live (Demo)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="https://s3.tradingview.com/tv.js"></script>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo">Autobit<span style="color:#66d4ff">.live</span></div>
+  <nav>
+    <a href="wallet.html">Wallet</a>
+    <a href="trade.html" class="active">Trade</a>
+    <a href="deposit.html">Deposit</a>
+    <a href="withdraw.html">Withdraw</a>
+    <a href="transactions.html">Transactions</a>
+  </nav>
+</aside>
+
+<main class="main">
+  <div class="header-row">
+    <h1>BTC / USDT — Demo Trading</h1>
+    <div class="header-actions">
+      <button class="btn" id="refreshBtn">Refresh</button>
+      <button class="ghost" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="card" style="flex:1 1 60%">
+      <div id="tv_chart" style="height:420px;"></div>
+      <script>
+      new TradingView.widget({
+        "width": "100%",
+        "height": 420,
+        "symbol": "BINANCE:BTCUSDT",
+        "interval": "60",
+        "theme": "dark",
+        "container_id": "tv_chart"
+      });
+      </script>
+    </div>
+
+    <div style="min-width:320px">
+      <div class="card">
+        <h3>Place Order</h3>
+
+        <label class="small">Side</label>
+        <select id="side">
+          <option value="buy">Buy</option>
+          <option value="sell">Sell</option>
+        </select>
+
+        <label class="small">Type</label>
+        <select id="kind">
+          <option value="limit">Limit</option>
+          <option value="market">Market</option>
+        </select>
+
+        <label class="small">Price (USDT)</label>
+        <input id="price" placeholder="price per coin">
+
+        <label class="small">Amount (BTC)</label>
+        <input id="amount" placeholder="amount">
+
+        <button class="submit" id="placeBtn">Place Order</button>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <h3>Order Book</h3>
+        <div style="display:flex; gap:8px;">
+          <div style="flex:1">
+            <h4 class="small">Bids</h4>
+            <div id="bids"></div>
+          </div>
+          <div style="flex:1">
+            <h4 class="small">Asks</h4>
+            <div id="asks"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <h3>Recent Trades</h3>
+        <div id="recentTrades" style="max-height:180px; overflow:auto"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script type="module">
+import { auth } from "../../js/firebase.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+
+const API = "https://api.autobit.live/api/trade";
+
+// helpers
+function el(id){ return document.getElementById(id); }
+
+async function fetchOrderbook(){
+  const res = await fetch(`${API}/book/BTC`);
+  const j = await res.json();
+  renderBook(j);
+}
+
+function renderBook({ buys, sells }){
+  el('bids').innerHTML = buys.map(b=>`<div class="small">${b.price.toFixed(2)} — ${b.remaining}</div>`).join('');
+  el('asks').innerHTML = sells.map(s=>`<div class="small">${s.price.toFixed(2)} — ${s.remaining}</div>`).join('');
+}
+
+async function fetchTrades(){
+  const res = await fetch(`${API}/trades/BTC`);
+  const j = await res.json();
+  el('recentTrades').innerHTML = j.map(t=>`<div class="small">${new Date(t.timestamp).toLocaleTimeString()} ${t.amount} @ ${t.price}</div>`).join('');
+}
+
+onAuthStateChanged(auth, user=>{
+  if(!user) window.location.href = "../index.html";
+
+  // connect SSE with token as query param
+  user.getIdToken().then(token=>{
+    const s = new EventSource(`${API.replace('/api/trade','/api')}/stream?token=${token}`);
+    s.onmessage = (ev)=>{
+      const data = JSON.parse(ev.data);
+      if(data.type === 'tick'){
+        // update book & trades snapshot if provided
+        renderBook({ buys: data.buys || [], sells: data.sells || [] });
+      }
+    };
+  });
+
+  fetchOrderbook();
+  fetchTrades();
+
+  el('placeBtn').addEventListener('click', async ()=>{
+    const kind = el('kind').value;
+    const side = el('side').value;
+    const price = Number(el('price').value) || 0;
+    const amount = Number(el('amount').value);
+
+    if(!amount || amount <= 0){ alert("Enter amount"); return; }
+
+    const token = await user.getIdToken();
+    const res = await fetch(`${API}/place`, {
+      method: "POST",
+      headers: { "Content-Type":"application/json", "Authorization":"Bearer "+token },
+      body: JSON.stringify({ type: side, kind, coin: "BTC", price, amount })
+    });
+    const j = await res.json();
+    if(j.error) alert(j.error); else {
+      alert("Order placed");
+      fetchOrderbook();
+      fetchTrades();
+    }
+  });
+});
+</script>
+
+</body>
+</html>

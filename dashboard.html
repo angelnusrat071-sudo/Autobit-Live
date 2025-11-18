@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard – Autobit Admin</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Autobit Admin</h2>
+    <a class="active" href="dashboard.html">Dashboard</a>
+    <a href="users.html">Users</a>
+    <a href="deposit.html">Deposits</a>
+    <a href="withdraw.html">Withdraws</a>
+    <a href="transactions.html">History</a>
+    <a href="#" onclick="logout()">Logout</a>
+</div>
+
+<div class="main">
+    <h1>Platform Overview</h1>
+
+    <div class="cards">
+        <div class="card">
+            <h3>Total Users</h3>
+            <p id="totalUsers">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Deposits</h3>
+            <p id="totalDeposits">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Withdraws</h3>
+            <p id="totalWithdraws">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Platform Balance</h3>
+            <p id="platformBalance">0</p>
+        </div>
+    </div>
+
+    <h2>Recent Activity</h2>
+    <table class="activity">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Type</th>
+                <th>Coin</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody id="recentRows"></tbody>
+    </table>
+</div>
+
+<script type="module" src="js/admin-dashboard.js"></script>
+</body>
+</html>

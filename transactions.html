@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Transactions – Autobit Admin</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Autobit Admin</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="users.html">Users</a>
+    <a href="deposit.html">Deposits</a>
+    <a href="withdraw.html">Withdraws</a>
+    <a class="active" href="transactions.html">History</a>
+    <a href="#" onclick="logout()">Logout</a>
+</div>
+
+<div class="main">
+    <h1>All Transactions History</h1>
+
+    <table border="1" style="width:100%; color:white; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Type</th>
+                <th>Coin</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+
+        <tbody id="historyRows"></tbody>
+    </table>
+</div>
+
+<script type="module" src="js/admin-history.js"></script>
+</body>
+</html>

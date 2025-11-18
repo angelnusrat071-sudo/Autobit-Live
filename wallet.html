@@ -1,0 +1,70 @@
+<!-- dashboard/wallet.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Wallet - Autobit.live</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="logo">Autobit<span style="color:#66d4ff">.live</span></div>
+    <nav>
+      <a href="wallet.html" class="active">Wallet</a>
+      <a href="deposit.html">Deposit</a>
+      <a href="withdraw.html">Withdraw</a>
+      <a href="transactions.html">Transactions</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="header-row">
+      <h1>My Wallet</h1>
+      <div class="header-actions">
+        <button class="btn" id="refreshBtn">Refresh</button>
+        <button class="ghost" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="card">
+        <h3>Total Balance (USD)</h3>
+        <div class="big" id="totalBalance">$0.00</div>
+        <div class="small">Estimated value based on live prices</div>
+      </div>
+
+      <div class="card">
+        <h3>Quick Actions</h3>
+        <div style="margin-top:12px;">
+          <a href="deposit.html" class="btn" style="display:inline-block">Deposit</a>
+          <a href="withdraw.html" class="btn" style="display:inline-block;margin-left:8px">Withdraw</a>
+        </div>
+      </div>
+    </div>
+
+    <h2 style="margin-top:26px">Assets</h2>
+    <div id="coinsArea" class="coins-grid">
+      <!-- coins injected by JS -->
+    </div>
+
+    <h2 style="margin-top:26px">Portfolio Details</h2>
+    <table class="table" id="portfolioTable">
+      <thead>
+        <tr>
+          <th>Coin</th>
+          <th>Price (USD)</th>
+          <th>Holdings</th>
+          <th>Value (USD)</th>
+        </tr>
+      </thead>
+      <tbody id="portfolioBody"></tbody>
+    </table>
+
+  </main>
+
+  <script type="module" src="js/dashboard.js"></script>
+  <script type="module" src="js/wallet.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Users – Autobit Admin</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Autobit Admin</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="users.html" class="active">Users</a>
+    <a href="deposit.html">Deposits</a>
+    <a href="withdraw.html">Withdraws</a>
+    <a href="transactions.html">History</a>
+    <a href="#" onclick="logout()">Logout</a>
+</div>
+
+<div class="main">
+    <h1>Users List</h1>
+
+    <table id="usersTable" border="1" style="width:100%; color:white; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>UID</th>
+                <th>BTC</th>
+                <th>ETH</th>
+                <th>BNB</th>
+                <th>SOL</th>
+                <th>USDT</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="userRows"></tbody>
+    </table>
+</div>
+
+<script type="module" src="js/admin-users.js"></script>
+</body>
+</html>

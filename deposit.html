@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Deposits – Autobit Admin</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Autobit Admin</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="users.html">Users</a>
+    <a href="deposit.html" class="active">Deposits</a>
+    <a href="withdraw.html">Withdraws</a>
+    <a href="transactions.html">History</a>
+    <a href="#" onclick="logout()">Logout</a>
+</div>
+
+<div class="main">
+    <h1>Pending Deposits</h1>
+
+    <table id="depositTable" border="1" style="width:100%; color:white; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Coin</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Approve</th>
+            </tr>
+        </thead>
+        <tbody id="depositRows"></tbody>
+    </table>
+</div>
+
+<script type="module" src="js/admin-deposit.js"></script>
+</body>
+</html>

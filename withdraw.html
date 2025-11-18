@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Withdraw – Autobit Admin</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Autobit Admin</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="users.html">Users</a>
+    <a href="deposit.html">Deposits</a>
+    <a class="active" href="withdraw.html">Withdraws</a>
+    <a href="transactions.html">History</a>
+    <a href="#" onclick="logout()">Logout</a>
+</div>
+
+<div class="main">
+    <h1>Pending Withdraw Requests</h1>
+
+    <table id="withdrawTable" border="1" style="width:100%; color:white; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Coin</th>
+                <th>Amount</th>
+                <th>Wallet Address</th>
+                <th>Date</th>
+                <th>Approve</th>
+            </tr>
+        </thead>
+        <tbody id="withdrawRows"></tbody>
+    </table>
+</div>
+
+<script type="module" src="js/admin-withdraw.js"></script>
+</body>
+</html>
